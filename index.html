@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jiwa: Field Edition — Immersion Card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=Syne:wght@700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #FF3947;
+    --red-dark: #CC1F2B;
+    --yellow: #FFD60A;
+    --black: #1A1A1A;
+    --gray-900: #F8F8F8;
+    --gray-800: #FFFFFF;
+    --gray-700: #E5E5E5;
+    --gray-400: #777777;
+    --gray-200: #333333;
+    --gray-100: #F0F0F0;
+    --white: #FFFFFF;
+    --slate: #4A6FA5;
+    --tangerine: #FF8C42;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #FFFFFF;
+    color: var(--black);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #E5E5E5;
+    padding: 0 32px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .header-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 800;
+    letter-spacing: -0.3px;
+  }
+  .header-brand span { color: var(--red); }
+  .header-badge {
+    background: var(--red);
+    color: var(--white);
+    font-size: 10px; font-weight: 700;
+    padding: 4px 10px; border-radius: 99px;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 80px 24px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 60%, rgba(255,57,71,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 3px;
+    color: var(--red); text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(48px, 10vw, 96px);
+    font-weight: 800; line-height: 0.95;
+    letter-spacing: -3px;
+    margin-bottom: 8px;
+    color: #1A1A1A;
+  }
+  .hero-title .accent { color: var(--red); display: block; }
+  .hero-sub {
+    font-size: clamp(14px, 2vw, 18px);
+    color: #888888;
+    margin-top: 20px; margin-bottom: 40px;
+    max-width: 440px; line-height: 1.6;
+  }
+
+  .type-selector {
+    display: flex; gap: 12px; margin-bottom: 48px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .type-btn {
+    padding: 12px 28px;
+    border-radius: 99px;
+    border: 1.5px solid #E0E0E0;
+    background: transparent;
+    color: #888888;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .type-btn:hover { border-color: var(--red); color: var(--red); }
+  .type-btn.active {
+    background: var(--red); border-color: var(--red);
+    color: var(--white);
+  }
+  .type-btn.active.hub {
+    background: var(--slate); border-color: var(--slate);
+  }
+
+  .scroll-cta {
+    display: flex; align-items: center; gap-8px;
+    flex-direction: column; gap: 8px;
+    color: #999999; font-size: 12px;
+    animation: bounce 2s infinite;
+  }
+  .scroll-arrow { font-size: 20px; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ── FORM ── */
+  .form-wrapper {
+    max-width: 780px; margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* Progress bar */
+  .progress-bar-wrap {
+    position: sticky; top: 60px; z-index: 90;
+    background: #FFFFFF;
+    padding: 16px 0 12px;
+    margin-bottom: 40px;
+  }
+  .progress-meta {
+    display: flex; justify-content: space-between;
+    font-size: 12px; color: #888888;
+    margin-bottom: 8px;
+  }
+  .progress-meta span:last-child { color: var(--red); font-weight: 600; }
+  .progress-track {
+    height: 3px; background: #E5E5E5; border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--red);
+    border-radius: 99px;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+    width: 0%;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px; border-radius: 4px;
+    background: var(--red); color: var(--white);
+    flex-shrink: 0;
+  }
+  .section-tag.hub { background: var(--slate); }
+  .section-tag.neutral { background: var(--gray-700); color: var(--gray-200); }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: #1A1A1A;
+  }
+  .divider {
+    flex: 1; height: 1px; background: #E5E5E5;
+  }
+
+  /* Fields */
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .field {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .field label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: #888888;
+  }
+  .field input, .field select {
+    background: #FFFFFF;
+    border: 1.5px solid #E0E0E0;
+    border-radius: 8px;
+    color: #1A1A1A;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 12px 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    width: 100%;
+  }
+  .field input:focus, .field select:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(255,57,71,0.12);
+  }
+  .field select option { background: #FFFFFF; }
+  .field select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; }
+
+  /* Checklist */
+  .checklist {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .check-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 14px;
+    background: #FFFFFF;
+    border: 1.5px solid #E0E0E0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--gray-400); }
+  .check-item.checked {
+    border-color: var(--red);
+    background: rgba(255,57,71,0.08);
+  }
+  .check-item.checked .check-box {
+    background: var(--red); border-color: var(--red);
+  }
+  .check-item.checked .check-box::after { opacity: 1; }
+  .check-box {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 1.5px solid var(--gray-400);
+    flex-shrink: 0; position: relative;
+    transition: all 0.15s;
+  }
+  .check-box::after {
+    content: '✓';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: var(--white);
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .check-label { font-size: 13px; font-weight: 500; color: #333333; }
+
+  /* POV Cards */
+  .pov-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 600px) {
+    .pov-cards { grid-template-columns: 1fr; }
+  }
+  .pov-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E8E8E8;
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .pov-card:focus-within { border-color: var(--red); }
+  .pov-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .pov-see::before { background: var(--red); }
+  .pov-feel::before { background: var(--tangerine); }
+  .pov-think::before { background: var(--yellow); }
+
+  .pov-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 800;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .pov-see .pov-label { color: var(--red); }
+  .pov-feel .pov-label { color: var(--tangerine); }
+  .pov-think .pov-label { color: var(--yellow); }
+
+  .pov-question {
+    font-size: 11px; color: #888888;
+    line-height: 1.5; margin-bottom: 14px;
+  }
+  .pov-card textarea {
+    width: 100%; background: transparent;
+    border: none; outline: none; resize: none;
+    color: #1A1A1A;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; line-height: 1.6;
+    min-height: 100px;
+  }
+  .pov-card textarea::placeholder { color: #CCCCCC; }
+
+  /* One Word One Action */
+  .owa-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  @media (max-width: 500px) { .owa-grid { grid-template-columns: 1fr; } }
+
+  .owa-card {
+    padding: 24px;
+    border-radius: 12px;
+    border: 1.5px solid #E8E8E8;
+    background: #FFFFFF;
+  }
+  .owa-card:focus-within { border-color: var(--yellow); }
+
+  .owa-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px; font-weight: 800;
+    color: #EBEBEB; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .owa-title {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--yellow);
+    margin-bottom: 12px;
+  }
+  .owa-hint { font-size: 11px; color: #888888; margin-bottom: 14px; line-height: 1.5; }
+  .owa-input {
+    width: 100%; background: transparent;
+    border: none; border-bottom: 1.5px solid #E0E0E0;
+    outline: none;
+    color: #1A1A1A;
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 700;
+    padding: 8px 0;
+    transition: border-color 0.2s;
+  }
+  .owa-input:focus { border-color: var(--yellow); }
+  .owa-input::placeholder { color: #DDDDDD; font-size: 18px; }
+  .owa-textarea {
+    width: 100%; background: transparent;
+    border: none; outline: none; resize: none;
+    color: #1A1A1A;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; line-height: 1.6;
+    min-height: 72px; padding: 8px 0;
+    border-top: 1.5px solid #E0E0E0;
+  }
+  .owa-textarea::placeholder { color: #DDDDDD; }
+
+  /* Rating */
+  .rating-row {
+    display: flex; gap: 8px; margin-bottom: 20px;
+  }
+  .star {
+    font-size: 28px; cursor: pointer;
+    color: var(--gray-700);
+    transition: color 0.15s, transform 0.1s;
+    user-select: none;
+  }
+  .star:hover, .star.lit { color: var(--yellow); }
+  .star:active { transform: scale(0.9); }
+
+  .feedback-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  @media (max-width: 500px) { .feedback-grid { grid-template-columns: 1fr; } }
+  .feedback-field label {
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--gray-400);
+    display: block; margin-bottom: 8px;
+  }
+  .feedback-field textarea {
+    width: 100%;
+    background: #FFFFFF;
+    border: 1.5px solid #E0E0E0;
+    border-radius: 8px;
+    color: #1A1A1A;
+    font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.6;
+    padding: 12px 14px; resize: none; min-height: 80px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .feedback-field textarea:focus { border-color: var(--red); }
+
+  /* Submit */
+  .submit-area {
+    margin-top: 48px; text-align: center;
+  }
+  .submit-btn {
+    background: var(--red);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 800;
+    letter-spacing: 0.5px;
+    padding: 18px 52px; border-radius: 99px;
+    border: none; cursor: pointer;
+    transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .submit-btn:hover {
+    background: var(--red-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(255,57,71,0.4);
+  }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* Success screen */
+  .success-screen {
+    display: none;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    background: #FFFFFF;
+  }
+  .success-screen.visible { display: flex; }
+  .success-icon {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(255,57,71,0.12);
+    border: 2px solid var(--red);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 36px; margin-bottom: 32px;
+    animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes pop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .success-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px; font-weight: 800; margin-bottom: 12px;
+    color: #1A1A1A;
+  }
+  .success-sub { color: var(--gray-400); font-size: 15px; line-height: 1.6; max-width: 360px; margin-bottom: 40px; }
+
+  .summary-card {
+    background: #F8F8F8;
+    border: 1.5px solid #E5E5E5;
+    border-radius: 16px; padding: 28px;
+    max-width: 480px; width: 100%; text-align: left;
+    margin-bottom: 32px;
+  }
+  .summary-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #888888; margin-bottom: 4px; }
+  .summary-value { font-size: 15px; font-weight: 500; color: #1A1A1A; margin-bottom: 16px; }
+  .summary-owa {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px;
+  }
+  .summary-owa-box {
+    background: #FFFFFF; border-radius: 8px; padding: 14px;
+    border: 1px solid var(--gray-700);
+  }
+  .summary-owa-label {
+    font-size: 9px; letter-spacing: 2px; color: var(--red);
+    text-transform: uppercase; font-weight: 700; margin-bottom: 6px;
+  }
+  .summary-owa-val {
+    font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: #1A1A1A;
+    word-break: break-word;
+  }
+
+  .reset-btn {
+    background: transparent;
+    border: 1.5px solid #E0E0E0;
+    color: #888888;
+    font-family: 'Inter', sans-serif; font-size: 14px;
+    padding: 12px 28px; border-radius: 99px;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: #1A1A1A; color: #1A1A1A; }
+
+  /* Utility */
+  .hidden { display: none !important; }
+  .char-count { font-size: 10px; color: #CCCCCC; text-align: right; margin-top: 4px; }
+
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid #E0E0E0;
+    background: transparent;
+    cursor: pointer; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .theme-toggle:hover { border-color: var(--red); transform: scale(1.1); }
+
+  /* ── DARK THEME ── */
+  body.dark {
+    background: #0E0E0E;
+    color: #FFFFFF;
+  }
+  body.dark .header {
+    background: rgba(14,14,14,0.92);
+    border-bottom-color: #333333;
+  }
+  body.dark .theme-toggle { border-color: #444444; }
+  body.dark .progress-bar-wrap { background: #0E0E0E; }
+  body.dark .progress-track { background: #333333; }
+  body.dark .section-title { color: #FFFFFF; }
+  body.dark .divider { background: #333333; }
+  body.dark .field label { color: #888888; }
+  body.dark .field input,
+  body.dark .field select {
+    background: #1E1E1E;
+    border-color: #333333;
+    color: #FFFFFF;
+  }
+  body.dark .field select option { background: #1E1E1E; }
+  body.dark .check-item {
+    background: #1E1E1E;
+    border-color: #333333;
+  }
+  body.dark .check-item:hover { border-color: #888888; }
+  body.dark .check-label { color: #CCCCCC; }
+  body.dark .pov-card {
+    background: #1A1A1A;
+    border-color: #333333;
+  }
+  body.dark .pov-card textarea { color: #FFFFFF; }
+  body.dark .pov-card textarea::placeholder { color: #444444; }
+  body.dark .pov-question { color: #888888; }
+  body.dark .owa-card {
+    background: #1A1A1A;
+    border-color: #333333;
+  }
+  body.dark .owa-number { color: #2A2A2A; }
+  body.dark .owa-hint { color: #888888; }
+  body.dark .owa-input {
+    border-bottom-color: #333333;
+    color: #FFFFFF;
+  }
+  body.dark .owa-input::placeholder { color: #333333; }
+  body.dark .owa-textarea {
+    border-top-color: #333333;
+    color: #FFFFFF;
+  }
+  body.dark .owa-textarea::placeholder { color: #333333; }
+  body.dark .feedback-field textarea {
+    background: #1E1E1E;
+    border-color: #333333;
+    color: #FFFFFF;
+  }
+  body.dark .hero-title { color: #FFFFFF; }
+  body.dark .hero-sub { color: #888888; }
+  body.dark .scroll-cta { color: #888888; }
+  body.dark .type-btn {
+    border-color: #444444;
+    color: #888888;
+  }
+  body.dark .type-btn:hover { color: #FFFFFF; border-color: var(--red); }
+  body.dark .success-screen { background: #0E0E0E; }
+  body.dark .success-title { color: #FFFFFF; }
+  body.dark .success-sub { color: #888888; }
+  body.dark .summary-card {
+    background: #1A1A1A;
+    border-color: #333333;
+  }
+  body.dark .summary-label { color: #888888; }
+  body.dark .summary-value { color: #FFFFFF; }
+  body.dark .summary-owa-box { background: #111111; border-color: #333333; }
+  body.dark .summary-owa-val { color: #FFFFFF; }
+  body.dark .reset-btn { border-color: #444444; color: #888888; }
+  body.dark .reset-btn:hover { border-color: #FFFFFF; color: #FFFFFF; }
+  body.dark .char-count { color: #444444; }
+  body.dark .progress-meta { color: #888888; }
+
+  /* Noise texture overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 200;
+    opacity: 0.01;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-brand">JIWA<span>:</span>FIELD EDITION</div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Ganti Tema">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <div class="header-badge">Immersion Card</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <p class="hero-eyebrow">Program Learning 2026 · OKR Wajib</p>
+  <h1 class="hero-title">
+    Immersion
+    <span class="accent">Card.</span>
+  </h1>
+  <p class="hero-sub">Tulis jujur. Tidak ada jawaban benar atau salah — hanya pengalamanmu yang nyata dari lapangan.</p>
+
+  <div class="type-selector">
+    <button class="type-btn active" id="btn-outlet" onclick="setType('outlet')">📍 Outlet</button>
+    <button class="type-btn" id="btn-hub" onclick="setType('hub')">🏭 HUB</button>
+  </div>
+
+  <div class="scroll-cta">
+    <span>Mulai isi di bawah</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+</section>
+
+<!-- FORM -->
+<div class="form-wrapper" id="form-section">
+
+  <!-- Progress -->
+  <div class="progress-bar-wrap">
+    <div class="progress-meta">
+      <span id="progress-label">Section 1 dari 5</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- SECTION A: IDENTITY -->
+  <div class="section" id="sec-identity">
+    <div class="section-header">
+      <span class="section-tag" id="tag-a">A</span>
+      <span class="section-title">Identitas Peserta</span>
+      <div class="divider"></div>
+    </div>
+    <div class="field-grid">
+      <div class="field">
+        <label>Nama Lengkap</label>
+        <input type="text" id="f-nama" placeholder="Nama kamu" oninput="updateProgress()">
+      </div>
+      <div class="field">
+        <label>Department / Role di HO</label>
+        <select id="f-dept" onchange="updateProgress()">
+          <option value="">Pilih Department</option>
+          <option>Board Of Director</option>
+          <option>Finance</option>
+          <option>Human Capital Management</option>
+          <option>Marketing</option>
+          <option>Operation</option>
+          <option>Procurement and Quality</option>
+          <option>Site Development and Project</option>
+          <option>Supply Chain</option>
+          <option>Technology</option>
+        </select>
+      </div>
+      <div class="field" id="field-lokasi-outlet">
+        <label>Nama Outlet</label>
+        <select id="f-outlet" onchange="updateProgress()">
+          <option value="">Pilih Outlet</option>
+          <option>JJC Greenville</option>
+          <option>JJC Metropark</option>
+          <option>JJC Golden Madrid</option>
+          <option>JJC Karawaci</option>
+          <option>JJC Senopati</option>
+          <option>JJC Pejaten</option>
+          <option>JJC Margonda</option>
+          <option>JJC La Terazza</option>
+        </select>
+      </div>
+      <div class="field hidden" id="field-lokasi-hub">
+        <label>Nama HUB</label>
+        <select id="f-hub" onchange="updateProgress()">
+          <option value="">Pilih HUB</option>
+          <option>HUB Pondok Ranji</option>
+          <option>HUB Karet</option>
+          <option>HUB Kebayoran</option>
+          <option>HUB Tangerang Kota</option>
+          <option>HUB Rawamangun</option>
+          <option>HUB Medan Satria</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tanggal Immersion</label>
+        <input type="date" id="f-tanggal" oninput="updateProgress()">
+      </div>
+      <div class="field" id="field-mentor1">
+        <label id="label-mentor1">Nama SPV</label>
+        <input type="text" id="f-mentor1" placeholder="Nama mentor" oninput="updateProgress()">
+      </div>
+      <div class="field" id="field-mentor2">
+        <label id="label-mentor2">Nama Buddy Mentor</label>
+        <input type="text" id="f-mentor2" placeholder="Nama mentor" oninput="updateProgress()">
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION B: EXPERIENCE CHECK -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag neutral">B</span>
+      <span class="section-title">Experience Check</span>
+      <div class="divider"></div>
+    </div>
+    <div class="checklist" id="checklist-outlet">
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Opening Shift Ops</span>
+      </label>
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Customer Experience</span>
+      </label>
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Non-Coffee Beverage</span>
+      </label>
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Bites Station</span>
+      </label>
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Peak Hour Simulation</span>
+      </label>
+    </div>
+    <div class="checklist hidden" id="checklist-hub">
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Admin Operations</span>
+      </label>
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Runner Operations</span>
+      </label>
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Rider Acquisition</span>
+      </label>
+      <label class="check-item" onclick="toggleCheck(this); updateProgress()">
+        <div class="check-box"></div>
+        <span class="check-label">Rider Monitoring</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- SECTION C: OBSERVATION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag" id="tag-c">C</span>
+      <span class="section-title">Observation — See · Feel · Think</span>
+      <div class="divider"></div>
+    </div>
+    <div class="pov-cards">
+      <div class="pov-card pov-see">
+        <div class="pov-label">See</div>
+        <div class="pov-question" id="q-see">Apa yang kamu lihat & rasakan langsung di lapangan yang belum pernah kamu bayangkan sebelumnya?</div>
+        <textarea id="f-see" placeholder="Tulis di sini..." oninput="updateProgress(); countChars(this, 'cc-see')"></textarea>
+        <div class="char-count" id="cc-see">0 karakter</div>
+      </div>
+      <div class="pov-card pov-feel">
+        <div class="pov-label">Feel</div>
+        <div class="pov-question" id="q-feel">Apa tantangan terbesar yang dihadapi tim sehari-hari menurut pengalamanmu?</div>
+        <textarea id="f-feel" placeholder="Tulis di sini..." oninput="updateProgress(); countChars(this, 'cc-feel')"></textarea>
+        <div class="char-count" id="cc-feel">0 karakter</div>
+      </div>
+      <div class="pov-card pov-think">
+        <div class="pov-label">Think</div>
+        <div class="pov-question" id="q-think">Dari role-mu di HO, apa yang bisa kamu lakukan berbeda untuk support tim ini lebih baik?</div>
+        <textarea id="f-think" placeholder="Tulis di sini..." oninput="updateProgress(); countChars(this, 'cc-think')"></textarea>
+        <div class="char-count" id="cc-think">0 karakter</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION D: ONE WORD ONE ACTION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag neutral">D</span>
+      <span class="section-title">One Word · One Action</span>
+      <div class="divider"></div>
+    </div>
+    <div class="owa-grid">
+      <div class="owa-card">
+        <div class="owa-number">01</div>
+        <div class="owa-title">One Word</div>
+        <div class="owa-hint">Satu kata yang paling merepresentasikan seluruh pengalaman immersion-mu.</div>
+        <input class="owa-input" id="f-word" placeholder="mis. REAL" maxlength="20" oninput="updateProgress()">
+      </div>
+      <div class="owa-card">
+        <div class="owa-number">02</div>
+        <div class="owa-title">One Action</div>
+        <div class="owa-hint">Satu aksi konkret yang akan kamu lakukan dalam 30 hari ke depan dari peranmu di HO.</div>
+        <textarea class="owa-textarea" id="f-action" placeholder="Saya akan..." oninput="updateProgress()"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION E: RATING -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-tag neutral">E</span>
+      <span class="section-title">Rating & Feedback</span>
+      <div class="divider"></div>
+    </div>
+
+    <div style="margin-bottom: 6px; font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-400);">Rating Pengalaman</div>
+    <div class="rating-row" id="stars">
+      <span class="star" data-val="1" onclick="setRating(1)">★</span>
+      <span class="star" data-val="2" onclick="setRating(2)">★</span>
+      <span class="star" data-val="3" onclick="setRating(3)">★</span>
+      <span class="star" data-val="4" onclick="setRating(4)">★</span>
+      <span class="star" data-val="5" onclick="setRating(5)">★</span>
+    </div>
+
+    <div class="feedback-grid">
+      <div class="feedback-field">
+        <label>Feedback untuk Program</label>
+        <textarea id="f-fb-program" placeholder="Apa yang bisa diperbaiki dari program ini?"></textarea>
+      </div>
+      <div class="feedback-field">
+        <label>Feedback untuk Mentor</label>
+        <textarea id="f-fb-mentor" placeholder="Bagaimana pengalaman kamu dengan mentor?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitCard()">Submit Immersion Card →</button>
+    <p style="margin-top: 16px; font-size: 12px; color: #888888;">Pastikan semua section sudah diisi sebelum submit.</p>
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div class="success-screen" id="success-screen">
+  <div class="success-icon">✓</div>
+  <h2 class="success-title">Immersion Card<br>submitted!</h2>
+  <p class="success-sub">Terima kasih telah berbagi pengalamanmu dari lapangan. Insight-mu akan membantu Jiwa Group tumbuh lebih baik dari dalam.</p>
+
+  <div class="summary-card" id="summary-card">
+    <div class="summary-label">Nama</div>
+    <div class="summary-value" id="s-nama">—</div>
+    <div class="summary-label">Lokasi</div>
+    <div class="summary-value" id="s-lokasi">—</div>
+    <div class="summary-label">Tipe Immersion</div>
+    <div class="summary-value" id="s-tipe">—</div>
+    <div class="summary-label">Tanggal</div>
+    <div class="summary-value" id="s-tanggal">—</div>
+    <div class="summary-label" style="margin-top: 4px;">Output</div>
+    <div class="summary-owa">
+      <div class="summary-owa-box">
+        <div class="summary-owa-label">One Word</div>
+        <div class="summary-owa-val" id="s-word">—</div>
+      </div>
+      <div class="summary-owa-box">
+        <div class="summary-owa-label">One Action</div>
+        <div class="summary-owa-val" id="s-action" style="font-size: 13px; font-family: Inter, sans-serif; font-weight: 500;">—</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="reset-btn" onclick="resetForm()">Isi card baru</button>
+</div>
+
+<script>
+  let currentType = 'outlet';
+  let rating = 0;
+
+  function setType(type) {
+    currentType = type;
+    const isHub = type === 'hub';
+
+    document.getElementById('btn-outlet').className = 'type-btn' + (isHub ? '' : ' active');
+    document.getElementById('btn-hub').className = 'type-btn' + (isHub ? ' active hub' : '');
+
+    document.getElementById('field-lokasi-outlet').classList.toggle('hidden', isHub);
+    document.getElementById('field-lokasi-hub').classList.toggle('hidden', !isHub);
+
+    document.getElementById('checklist-outlet').classList.toggle('hidden', isHub);
+    document.getElementById('checklist-hub').classList.toggle('hidden', !isHub);
+
+    const m1 = document.getElementById('label-mentor1');
+    const m2 = document.getElementById('label-mentor2');
+    if (isHub) {
+      m1.textContent = 'Hub Manager';
+      m2.textContent = 'Hub Supervisor';
+      document.getElementById('tag-a').classList.add('hub');
+      document.getElementById('tag-c').classList.add('hub');
+    } else {
+      m1.textContent = 'Nama SPV';
+      m2.textContent = 'Nama Buddy Mentor';
+      document.getElementById('tag-a').classList.remove('hub');
+      document.getElementById('tag-c').classList.remove('hub');
+    }
+
+    document.getElementById('f-outlet').value = '';
+    document.getElementById('f-hub').value = '';
+
+    updateProgress();
+
+    // scroll to form
+    document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+  }
+
+  function setRating(val) {
+    rating = val;
+    document.querySelectorAll('.star').forEach(s => {
+      s.classList.toggle('lit', parseInt(s.dataset.val) <= val);
+    });
+    updateProgress();
+  }
+
+  function countChars(el, counterId) {
+    document.getElementById(counterId).textContent = el.value.length + ' karakter';
+  }
+
+  function updateProgress() {
+    const fields = [
+      document.getElementById('f-nama').value.trim(),
+      document.getElementById('f-dept').value.trim(),
+      currentType === 'outlet' ? document.getElementById('f-outlet').value.trim() : document.getElementById('f-hub').value.trim(),
+      document.getElementById('f-tanggal').value,
+      document.getElementById('f-see').value.trim(),
+      document.getElementById('f-feel').value.trim(),
+      document.getElementById('f-think').value.trim(),
+      document.getElementById('f-word').value.trim(),
+      document.getElementById('f-action').value.trim(),
+      rating > 0 ? 'ok' : '',
+    ];
+    const filled = fields.filter(Boolean).length;
+    const pct = Math.round((filled / fields.length) * 100);
+
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+
+    const sec = Math.ceil(filled / 2);
+    document.getElementById('progress-label').textContent = `Progress ${pct}% selesai`;
+  }
+
+  // ── GANTI URL INI dengan URL Google Apps Script kamu ──
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbymnVeQufKbAMoMQbcQxP7MUIqwgUh1HlzGhYhiJlf__ebauLh4qLtv5cWfaI00gntLBw/exec';
+
+  async function submitCard() {
+    const nama = document.getElementById('f-nama').value.trim();
+    const dept = document.getElementById('f-dept').value.trim();
+    const lokasi = currentType === 'outlet'
+      ? document.getElementById('f-outlet').value.trim()
+      : document.getElementById('f-hub').value.trim();
+    const mentor1 = document.getElementById('f-mentor1').value.trim();
+    const mentor2 = document.getElementById('f-mentor2').value.trim();
+    const tanggal = document.getElementById('f-tanggal').value;
+    const see = document.getElementById('f-see').value.trim();
+    const feel = document.getElementById('f-feel').value.trim();
+    const think = document.getElementById('f-think').value.trim();
+    const word = document.getElementById('f-word').value.trim();
+    const action = document.getElementById('f-action').value.trim();
+    const fbProgram = document.getElementById('f-fb-program').value.trim();
+    const fbMentor = document.getElementById('f-fb-mentor').value.trim();
+
+    const activeList = currentType === 'outlet' ? 'checklist-outlet' : 'checklist-hub';
+    const checked = [...document.querySelectorAll(`#${activeList} .check-item.checked .check-label`)]
+      .map(el => el.textContent).join(', ');
+
+    if (!nama || !lokasi || !word || !action) {
+      showToast('Lengkapi dulu: Nama, Lokasi, One Word, dan One Action ya! 🙏', 'error');
+      return;
+    }
+
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'Mengirim...';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    const payload = {
+      timestamp: new Date().toISOString(),
+      tipe: currentType === 'outlet' ? 'Outlet' : 'HUB',
+      nama, dept, lokasi, mentor1, mentor2, tanggal,
+      aktivitas: checked,
+      see, feel, think, word, action,
+      rating: rating,
+      feedback_program: fbProgram,
+      feedback_mentor: fbMentor,
+    };
+
+    try {
+      if (SCRIPT_URL !== 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+      }
+      showSuccess(payload);
+    } catch (err) {
+      showSuccess(payload);
+    }
+  }
+
+  function showSuccess(payload) {
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'Submit Immersion Card →';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+
+    const tanggal = payload.tanggal;
+    document.getElementById('s-nama').textContent = payload.nama;
+    document.getElementById('s-lokasi').textContent = payload.lokasi;
+    document.getElementById('s-tipe').textContent = payload.tipe === 'Outlet' ? '📍 Outlet' : '🏭 HUB';
+    document.getElementById('s-tanggal').textContent = tanggal
+      ? new Date(tanggal + 'T00:00:00').toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'})
+      : '—';
+    document.getElementById('s-word').textContent = payload.word.toUpperCase();
+    document.getElementById('s-action').textContent = payload.action;
+
+    document.getElementById('form-section').classList.add('hidden');
+    document.getElementById('hero').classList.add('hidden');
+    const s = document.getElementById('success-screen');
+    s.classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showToast(msg, type) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+      background:${type === 'error' ? '#FF3947' : '#1A1A1A'};
+      color:#fff; padding:12px 24px; border-radius:99px;
+      font-size:13px; font-weight:500; z-index:9999;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    `;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+  }
+
+  function resetForm() {
+    document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+    document.querySelectorAll('.check-item').forEach(el => el.classList.remove('checked'));
+    rating = 0;
+    document.querySelectorAll('.star').forEach(s => s.classList.remove('lit'));
+    setType('outlet');
+    document.getElementById('success-screen').classList.remove('visible');
+    document.getElementById('form-section').classList.remove('hidden');
+    document.getElementById('hero').classList.remove('hidden');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+
+  // ── THEME TOGGLE ──
+  function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark');
+    document.getElementById('theme-icon').textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('jiwa-theme', isDark ? 'dark' : 'light');
+  }
+
+  // Load saved theme
+  if (localStorage.getItem('jiwa-theme') === 'dark') {
+    document.body.classList.add('dark');
+    document.getElementById('theme-icon').textContent = '☀️';
+  }
+
+  // init
+  updateProgress();
+</script>
+</body>
+</html>
