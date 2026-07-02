@@ -832,6 +832,60 @@
     opacity: 0.01;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+
+  /* ── PHOTO UPLOAD ── */
+  .photo-upload-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+  @media (max-width: 500px) {
+    .photo-upload-grid { grid-template-columns: 1fr; }
+  }
+  .photo-upload-box {
+    border: 2px dashed #E0E0E0;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #F8F8F8;
+    position: relative;
+  }
+  .photo-upload-box:hover { border-color: var(--red); background: rgba(255,57,71,0.03); }
+  .photo-upload-box.has-photo { border-style: solid; border-color: var(--red); }
+  .photo-upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .photo-upload-label {
+    font-size: 12px; font-weight: 600; color: #555555;
+    text-transform: uppercase; letter-spacing: 1px;
+    display: block; margin-bottom: 4px;
+  }
+  .photo-upload-hint { font-size: 11px; color: #AAAAAA; }
+  .photo-upload-input { display: none; }
+  .photo-preview {
+    width: 100%; height: 140px;
+    object-fit: cover; border-radius: 8px;
+    display: none; margin-bottom: 8px;
+  }
+  .photo-preview.visible { display: block; }
+  .photo-remove {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--red); color: white;
+    border: none; border-radius: 50%;
+    width: 24px; height: 24px;
+    font-size: 12px; cursor: pointer;
+    display: none; align-items: center; justify-content: center;
+  }
+  .photo-remove.visible { display: flex; }
+  .photo-section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 8px; display: block;
+  }
+  body.dark .photo-upload-box { background: #1E1E1E; border-color: #333333; }
+  body.dark .photo-upload-label { color: #AAAAAA; }
+
 </style>
 </head>
 <body>
@@ -1306,6 +1360,50 @@
     </div>
   </div>
 
+    <!-- PHOTO UPLOAD -->
+    <div style="margin-top: 28px;">
+      <span class="photo-section-label">📸 Foto Dokumentasi</span>
+      <div class="photo-upload-grid">
+
+        <div class="photo-upload-box" id="box-mentor1" onclick="document.getElementById('upload-mentor1').click()">
+          <button class="photo-remove" id="remove-mentor1" onclick="removePhoto(event,'mentor1')">✕</button>
+          <img class="photo-preview" id="preview-mentor1" src="" alt="">
+          <div class="photo-upload-icon">🤝</div>
+          <span class="photo-upload-label">Foto dengan Mentor 1</span>
+          <span class="photo-upload-hint">Maks 10MB · JPG/PNG</span>
+          <input class="photo-upload-input" type="file" id="upload-mentor1" accept="image/*" onchange="previewPhoto(this,'mentor1')">
+        </div>
+
+        <div class="photo-upload-box" id="box-mentor2" onclick="document.getElementById('upload-mentor2').click()">
+          <button class="photo-remove" id="remove-mentor2" onclick="removePhoto(event,'mentor2')">✕</button>
+          <img class="photo-preview" id="preview-mentor2" src="" alt="">
+          <div class="photo-upload-icon">🤝</div>
+          <span class="photo-upload-label">Foto dengan Mentor 2</span>
+          <span class="photo-upload-hint">Maks 10MB · JPG/PNG</span>
+          <input class="photo-upload-input" type="file" id="upload-mentor2" accept="image/*" onchange="previewPhoto(this,'mentor2')">
+        </div>
+
+        <div class="photo-upload-box" id="box-kegiatan1" onclick="document.getElementById('upload-kegiatan1').click()">
+          <button class="photo-remove" id="remove-kegiatan1" onclick="removePhoto(event,'kegiatan1')">✕</button>
+          <img class="photo-preview" id="preview-kegiatan1" src="" alt="">
+          <div class="photo-upload-icon">📷</div>
+          <span class="photo-upload-label">Foto Kegiatan 1</span>
+          <span class="photo-upload-hint">Maks 10MB · JPG/PNG</span>
+          <input class="photo-upload-input" type="file" id="upload-kegiatan1" accept="image/*" onchange="previewPhoto(this,'kegiatan1')">
+        </div>
+
+        <div class="photo-upload-box" id="box-kegiatan2" onclick="document.getElementById('upload-kegiatan2').click()">
+          <button class="photo-remove" id="remove-kegiatan2" onclick="removePhoto(event,'kegiatan2')">✕</button>
+          <img class="photo-preview" id="preview-kegiatan2" src="" alt="">
+          <div class="photo-upload-icon">📷</div>
+          <span class="photo-upload-label">Foto Kegiatan 2</span>
+          <span class="photo-upload-hint">Maks 10MB · JPG/PNG</span>
+          <input class="photo-upload-input" type="file" id="upload-kegiatan2" accept="image/*" onchange="previewPhoto(this,'kegiatan2')">
+        </div>
+
+      </div>
+    </div>
+
   <!-- SUBMIT -->
   <div class="submit-area">
     <button class="submit-btn" onclick="submitCard()">Submit Immersion Card →</button>
@@ -1522,6 +1620,13 @@
           body: JSON.stringify(payload),
         });
       }
+      // Upload foto jika ada
+      const namaFile = nama.replace(/\s+/g, '_') + '_' + tanggal;
+      if (photoFiles['mentor1']) await uploadPhotoToDrive(photoFiles['mentor1'], namaFile + '_mentor1');
+      if (photoFiles['mentor2']) await uploadPhotoToDrive(photoFiles['mentor2'], namaFile + '_mentor2');
+      if (photoFiles['kegiatan1']) await uploadPhotoToDrive(photoFiles['kegiatan1'], namaFile + '_kegiatan1');
+      if (photoFiles['kegiatan2']) await uploadPhotoToDrive(photoFiles['kegiatan2'], namaFile + '_kegiatan2');
+
       showSuccess(payload);
     } catch (err) {
       showSuccess(payload);
@@ -1611,6 +1716,90 @@
   if (localStorage.getItem('jiwa-theme') === 'dark') {
     document.body.classList.add('dark');
     document.getElementById('theme-icon').textContent = '☀️';
+  }
+
+
+  // ── PHOTO UPLOAD ──
+  const photoFiles = {};
+
+  function previewPhoto(input, key) {
+    const file = input.files[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('Ukuran foto maksimal 10MB ya! 📸', 'error');
+      input.value = '';
+      return;
+    }
+
+    photoFiles[key] = file;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const preview = document.getElementById('preview-' + key);
+      const removeBtn = document.getElementById('remove-' + key);
+      const box = document.getElementById('box-' + key);
+      const icon = box.querySelector('.photo-upload-icon');
+      const label = box.querySelector('.photo-upload-label');
+      const hint = box.querySelector('.photo-upload-hint');
+
+      preview.src = e.target.result;
+      preview.classList.add('visible');
+      removeBtn.classList.add('visible');
+      box.classList.add('has-photo');
+      icon.style.display = 'none';
+      label.style.display = 'none';
+      hint.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removePhoto(event, key) {
+    event.stopPropagation();
+    delete photoFiles[key];
+
+    const preview = document.getElementById('preview-' + key);
+    const removeBtn = document.getElementById('remove-' + key);
+    const box = document.getElementById('box-' + key);
+    const input = document.getElementById('upload-' + key);
+    const icon = box.querySelector('.photo-upload-icon');
+    const label = box.querySelector('.photo-upload-label');
+    const hint = box.querySelector('.photo-upload-hint');
+
+    preview.src = '';
+    preview.classList.remove('visible');
+    removeBtn.classList.remove('visible');
+    box.classList.remove('has-photo');
+    icon.style.display = '';
+    label.style.display = '';
+    hint.style.display = '';
+    input.value = '';
+  }
+
+  async function uploadPhotoToDrive(file, fileName) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const base64 = e.target.result.split(',')[1];
+        try {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'photo',
+              fileName,
+              base64,
+              mimeType: file.type,
+            }),
+          });
+          resolve('uploaded');
+        } catch {
+          resolve('failed');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   // init
